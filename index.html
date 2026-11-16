@@ -69,7 +69,7 @@ nav button,.seg button{transition:transform .12s,background .25s,border-color .2
 <body>
 <div class="wrap">
 <header><h1>ADAPT TECH</h1><span class="badge" id="sync">Ativo</span></header>
-<div class="sub">GestÃ£o comercial</div>
+<div class="sub">Gest&#227;o comercial</div>
 <nav id="nav"></nav>
 <main id="app"></main>
 </div>
@@ -87,13 +87,13 @@ db.cash=db.cash||[];db.meta=db.meta||0;
 const localSave=()=>{try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){}};
 const save=()=>{db.ts=Date.now();localSave();push()};
 const S={tab:'inicio',et:'variavel',ef:'todas',ct:'aporte',cf:'todas',per:'mes',mes:today().slice(0,7),dia:today()};
-const TABS=[['inicio','InÃ­cio'],['cadastrar','Cadastrar'],['produtos','Produtos'],['vender','Vender'],['despesas','Despesas'],['relatorios','RelatÃ³rios'],['caixa','Caixa']];
-const CATS=['EletrÃ´nicos','Celulares','AcessÃ³rios','Games','PeÃ§as','Outros'];
+const TABS=[['inicio','In\u00edcio'],['cadastrar','Cadastrar'],['produtos','Produtos'],['vender','Vender'],['despesas','Despesas'],['relatorios','Relat\u00f3rios'],['caixa','Caixa']];
+const CATS=['Eletr\u00f4nicos','Celulares','Acess\u00f3rios','Games','Pe\u00e7as','Outros'];
 const go=t=>{S.tab=t;render(1);window.scrollTo(0,0)};
 const toast=m=>{const e=document.createElement('div');e.className='toast';e.textContent=m;document.body.appendChild(e);setTimeout(()=>e.remove(),1800)};
 const val=id=>$('#'+id).value;
 
-// Ã­cone para a tela inicial
+// \u00edcone para a tela inicial
 (()=>{try{const c=document.createElement('canvas');c.width=c.height=180;const x=c.getContext('2d');x.fillStyle='#0d1511';x.fillRect(0,0,180,180);x.fillStyle='#3a8a45';x.beginPath();x.arc(90,90,62,0,7);x.fill();x.fillStyle='#fff';x.font='bold 54px -apple-system,sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('AT',90,94);$('#icon').href=c.toDataURL('image/png')}catch(e){}})();
 
 const rev=s=>s.qty*s.price, cmv=s=>s.qty*s.cost;
@@ -104,82 +104,82 @@ const views={
 inicio(){
   const T=totals(db.sales,db.expenses),P=db.products;
   const low=P.filter(p=>p.stock<=p.min);
-  return `<h2>VisÃ£o geral</h2><p class="m">Resumo geral da operaÃ§Ã£o.</p>
+  return `<h2>Vis\u00e3o geral</h2><p class="m">Resumo geral da opera\u00e7\u00e3o.</p>
   <div class="grid">
   <div class="card"><div class="l">Faturamento total</div><div class="v">${brl(T.fat)}</div></div>
-  <div class="card"><div class="l">Lucro lÃ­quido geral</div><div class="v ${T.liq<0?'neg':'pos'}">${brl(T.liq)}</div></div>
+  <div class="card"><div class="l">Lucro l\u00edquido geral</div><div class="v ${T.liq<0?'neg':'pos'}">${brl(T.liq)}</div></div>
   <div class="card"><div class="l">Produtos cadastrados</div><div class="v">${P.length}</div></div>
   <div class="card"><div class="l">Unidades em estoque</div><div class="v">${sum(P,p=>p.stock)}</div></div>
   <div class="card"><div class="l">Unidades vendidas</div><div class="v">${T.un}</div></div>
   <div class="card"><div class="l">Investimento em estoque</div><div class="v">${brl(sum(P,p=>p.stock*p.cost))}</div></div></div>
-  ${metaCard()}${notifCard()}<div class="card"><h3 style="margin-top:0">AtenÃ§Ã£o ao estoque</h3>${low.length?low.map(p=>`<div class="row"><span>${esc(p.name)}</span><span class="low">${p.stock} un. (mÃ­n. ${p.min})</span></div>`).join(''):'<span class="pos">Todos os produtos estÃ£o acima do estoque mÃ­nimo.</span>'}</div>
-  <button class="btn" onclick="go('relatorios')">Abrir relatÃ³rios</button>`},
+  ${metaCard()}${notifCard()}<div class="card"><h3 style="margin-top:0">Aten\u00e7\u00e3o ao estoque</h3>${low.length?low.map(p=>`<div class="row"><span>${esc(p.name)}</span><span class="low">${p.stock} un. (m\u00edn. ${p.min})</span></div>`).join(''):'<span class="pos">Todos os produtos est\u00e3o acima do estoque m\u00ednimo.</span>'}</div>
+  <button class="btn" onclick="go('relatorios')">Abrir relat\u00f3rios</button>`},
 cadastrar(){
-  return `<h2>Cadastrar produto</h2><p class="m">Informe a data em que o produto entrou no estoque. O custo unitÃ¡rio deve incluir frete e taxas da compra.</p>
+  return `<h2>Cadastrar produto</h2><p class="m">Informe a data em que o produto entrou no estoque. O custo unit\u00e1rio deve incluir frete e taxas da compra.</p>
   <label>Nome do produto</label><input id="pn" placeholder="Ex.: Controle de PS4">
   <label>Categoria</label><select id="pc">${CATS.map(c=>`<option>${c}</option>`).join('')}</select>
-  <label>Custo unitÃ¡rio (R$)</label><input id="pk" inputmode="decimal" placeholder="0,00">
-  <label>PreÃ§o de venda (R$)</label><input id="pp" inputmode="decimal" placeholder="0,00">
-  <div class="two"><div><label>Quantidade comprada</label><input id="pq" type="number" inputmode="numeric" min="1" value="1"></div><div><label>Estoque mÃ­nimo</label><input id="pm" type="number" inputmode="numeric" min="0" value="1"></div></div>
+  <label>Custo unit\u00e1rio (R$)</label><input id="pk" inputmode="decimal" placeholder="0,00">
+  <label>Pre\u00e7o de venda (R$)</label><input id="pp" inputmode="decimal" placeholder="0,00">
+  <div class="two"><div><label>Quantidade comprada</label><input id="pq" type="number" inputmode="numeric" min="1" value="1"></div><div><label>Estoque m\u00ednimo</label><input id="pm" type="number" inputmode="numeric" min="0" value="1"></div></div>
   <label>Data de entrada no estoque</label><input id="pd" type="date" value="${today()}">
   <button class="btn" onclick="addProduct()">Salvar produto</button>`},
 produtos(){
   const P=db.products;
   return `<h2 style="display:flex;justify-content:space-between;align-items:center">Estoque de produtos <span class="badge" style="color:var(--mute);background:var(--card)">${P.length} itens</span></h2>
   ${P.length?P.map(p=>`<div class="card"><div class="row" style="border:0;padding:0"><b>${esc(p.name)}</b><span class="${p.stock<=p.min?'low':'pos'}">${p.stock} em estoque</span></div>
-  <div class="l" style="color:var(--mute);font-size:13px;margin-top:4px">${esc(p.cat)} Â· entrada ${fdate(p.date)}</div>
-  <div class="two" style="margin-top:8px;font-size:14px"><span>Custo ${brl(p.cost)}</span><span>Venda ${brl(p.price)}</span><span>Margem ${p.price?Math.round((p.price-p.cost)/p.price*100):0}%</span><span>MÃ­nimo ${p.min}</span></div>
-  ${p.stock>0?`<button class="btn s" onclick="quickSell(${p.id})">Vender 1</button>`:''}<button class="btn s o" onclick="editProduct(${p.id})">Editar</button><button class="btn s o" onclick="restock(${p.id})">Repor estoque</button><button class="btn s d" onclick="delProduct(${p.id})">Excluir</button></div>`).join(''):`<div class="card empty"><b style="color:var(--tx);font-size:18px">Nenhum produto cadastrado</b><p>Cadastre seu primeiro produto para comeÃ§ar.</p><button class="btn s" onclick="go('cadastrar')">Cadastrar produto</button></div>`}`},
+  <div class="l" style="color:var(--mute);font-size:13px;margin-top:4px">${esc(p.cat)} \u00b7 entrada ${fdate(p.date)}</div>
+  <div class="two" style="margin-top:8px;font-size:14px"><span>Custo ${brl(p.cost)}</span><span>Venda ${brl(p.price)}</span><span>Margem ${p.price?Math.round((p.price-p.cost)/p.price*100):0}%</span><span>M\u00ednimo ${p.min}</span></div>
+  ${p.stock>0?`<button class="btn s" onclick="quickSell(${p.id})">Vender 1</button>`:''}<button class="btn s o" onclick="editProduct(${p.id})">Editar</button><button class="btn s o" onclick="restock(${p.id})">Repor estoque</button><button class="btn s d" onclick="delProduct(${p.id})">Excluir</button></div>`).join(''):`<div class="card empty"><b style="color:var(--tx);font-size:18px">Nenhum produto cadastrado</b><p>Cadastre seu primeiro produto para come\u00e7ar.</p><button class="btn s" onclick="go('cadastrar')">Cadastrar produto</button></div>`}`},
 vender(){
   const P=db.products.filter(p=>p.stock>0);
   const sales=[...db.sales].reverse();
   return `<h2>Registrar venda</h2>
   ${P.length?`<label>Produto</label><select id="vp" onchange="fillPrice()">${P.map(p=>`<option value="${p.id}">${esc(p.name)} (${p.stock} un.)</option>`).join('')}</select>
-  <div class="two"><div><label>Quantidade</label><input id="vq" type="number" inputmode="numeric" min="1" value="1"></div><div><label>PreÃ§o unitÃ¡rio (R$)</label><input id="vv" inputmode="decimal"></div></div>
-  <label>Como foi paga a venda?</label><div class="seg"><button class="${(S.pay||'Pix')==='Pix'?'on':''}" onclick="setSeg('pay','Pix',this)">Pix</button><button class="${S.pay==='Dinheiro'?'on':''}" onclick="setSeg('pay','Dinheiro',this)">Dinheiro</button><button class="${S.pay==='CartÃ£o'?'on':''}" onclick="setSeg('pay','CartÃ£o',this)">CartÃ£o</button></div>
+  <div class="two"><div><label>Quantidade</label><input id="vq" type="number" inputmode="numeric" min="1" value="1"></div><div><label>Pre\u00e7o unit\u00e1rio (R$)</label><input id="vv" inputmode="decimal"></div></div>
+  <label>Como foi paga a venda?</label><div class="seg"><button class="${(S.pay||'Pix')==='Pix'?'on':''}" onclick="setSeg('pay','Pix',this)">Pix</button><button class="${S.pay==='Dinheiro'?'on':''}" onclick="setSeg('pay','Dinheiro',this)">Dinheiro</button><button class="${S.pay==='Cart\u00e3o'?'on':''}" onclick="setSeg('pay','Cart\u00e3o',this)">Cart\u00e3o</button></div>
   <label>Taxas da venda (R$)</label><input id="vf" inputmode="decimal" placeholder="0,00">
   <label>Data da venda</label><input id="vd" type="date" value="${today()}">
   <button class="btn" onclick="addSale()">Registrar venda</button>`:`<p class="m">Cadastre um produto com estoque antes de registrar uma venda.</p><button class="btn" onclick="go('cadastrar')">Cadastrar produto</button>`}
-  <h3>Vendas registradas</h3>${sales.length?sales.slice(0,30).map(s=>`<div class="row"><div><b>${esc(s.name)}</b><div class="l" style="color:var(--mute);font-size:13px">${s.qty} un. Â· ${s.pay||'â'} Â· ${fdate(s.date)}</div><a href="#" style="color:var(--bad);font-size:13px" onclick="delSale(${s.id});return false">Cancelar venda</a></div><b>${brl(rev(s))}</b></div>`).join(''):'<p class="m">Nenhuma venda registrada.</p>'}`},
+  <h3>Vendas registradas</h3>${sales.length?sales.slice(0,30).map(s=>`<div class="row"><div><b>${esc(s.name)}</b><div class="l" style="color:var(--mute);font-size:13px">${s.qty} un. \u00b7 ${s.pay||'\u2014'} \u00b7 ${fdate(s.date)}</div><a href="#" style="color:var(--bad);font-size:13px" onclick="delSale(${s.id});return false">Cancelar venda</a></div><b>${brl(rev(s))}</b></div>`).join(''):'<p class="m">Nenhuma venda registrada.</p>'}`},
 despesas(){
   const F=db.expenses.filter(e=>e.type==='fixa'),V=db.expenses.filter(e=>e.type==='variavel');
   const L=db.expenses.filter(e=>S.ef==='todas'||e.type===S.ef.slice(0,-1)).sort((a,b)=>b.date.localeCompare(a.date));
   return `<h2>Despesas</h2>
-  <div class="seg"><button class="${S.et==='fixa'?'on':''}" onclick="setSeg('et','fixa',this)">Fixa</button><button class="${S.et==='variavel'?'on':''}" onclick="setSeg('et','variavel',this)">VariÃ¡vel</button></div>
-  <label>DescriÃ§Ã£o</label><input id="ed" placeholder="Ex.: Internet, embalagem, transporte">
+  <div class="seg"><button class="${S.et==='fixa'?'on':''}" onclick="setSeg('et','fixa',this)">Fixa</button><button class="${S.et==='variavel'?'on':''}" onclick="setSeg('et','variavel',this)">Vari\u00e1vel</button></div>
+  <label>Descri\u00e7\u00e3o</label><input id="ed" placeholder="Ex.: Internet, embalagem, transporte">
   <label>Valor (R$)</label><input id="ev" inputmode="decimal" placeholder="0,00">
   <label>Data da despesa</label><input id="et" type="date" value="${today()}">
   <button class="btn" onclick="addExp()">Registrar despesa</button>
-  <div class="grid" style="margin-top:16px"><div class="card"><div class="l">Despesas fixas</div><div class="v">${brl(sum(F,e=>e.value))}</div></div><div class="card"><div class="l">Despesas variÃ¡veis</div><div class="v">${brl(sum(V,e=>e.value))}</div></div></div>
-  <select onchange="S.ef=this.value;render()"><option value="todas">Todas</option><option value="fixas" ${S.ef==='fixas'?'selected':''}>Fixas</option><option value="variaveis" ${S.ef==='variaveis'?'selected':''}>VariÃ¡veis</option></select>
-  <div style="margin-top:8px">${L.length?L.map(e=>`<div class="row"><div><b>${esc(e.desc)}</b><div class="l" style="color:var(--mute);font-size:13px">${e.type==='fixa'?'Fixa':'VariÃ¡vel'} Â· ${fdate(e.date)}</div><a href="#" style="color:var(--bad);font-size:13px" onclick="delExp(${e.id});return false">Excluir</a></div><b>${brl(e.value)}</b></div>`).join(''):'<p class="m">Nenhuma despesa nesse filtro.</p>'}</div>`},
+  <div class="grid" style="margin-top:16px"><div class="card"><div class="l">Despesas fixas</div><div class="v">${brl(sum(F,e=>e.value))}</div></div><div class="card"><div class="l">Despesas vari\u00e1veis</div><div class="v">${brl(sum(V,e=>e.value))}</div></div></div>
+  <select onchange="S.ef=this.value;render()"><option value="todas">Todas</option><option value="fixas" ${S.ef==='fixas'?'selected':''}>Fixas</option><option value="variaveis" ${S.ef==='variaveis'?'selected':''}>Vari\u00e1veis</option></select>
+  <div style="margin-top:8px">${L.length?L.map(e=>`<div class="row"><div><b>${esc(e.desc)}</b><div class="l" style="color:var(--mute);font-size:13px">${e.type==='fixa'?'Fixa':'Vari\u00e1vel'} \u00b7 ${fdate(e.date)}</div><a href="#" style="color:var(--bad);font-size:13px" onclick="delExp(${e.id});return false">Excluir</a></div><b>${brl(e.value)}</b></div>`).join(''):'<p class="m">Nenhuma despesa nesse filtro.</p>'}</div>`},
 relatorios(){
   const inP=d=>{const t=today();if(S.per==='hoje')return d===t;if(S.per==='mes')return d.slice(0,7)===S.mes;if(S.per==='dia')return d===S.dia;const a=new Date(t+'T00:00');a.setDate(a.getDate()-6);const lo=new Date(a-a.getTimezoneOffset()*6e4).toISOString().slice(0,10);return d>=lo&&d<=t};
   const sales=db.sales.filter(s=>inP(s.date)),exps=db.expenses.filter(e=>inP(e.date)),T=totals(sales,exps);
   const by={};sales.forEach(s=>{by[s.name]=(by[s.name]||0)+s.qty});
   const top=Object.entries(by).sort((a,b)=>b[1]-a[1]).slice(0,5);
   const B=(k,n)=>`<button class="${S.per===k?'on':''}" onclick="S.per='${k}';render()">${n}</button>`;
-  return `<h2>RelatÃ³rios</h2><p class="m">Escolha o perÃ­odo para atualizar os indicadores e os lanÃ§amentos abaixo.</p>
-  <div class="seg">${B('hoje','Hoje')}${B('semana','Semana')}${B('mes','MÃªs')}${B('dia','Dia')}</div>
-  ${S.per==='mes'?`<label>Selecionar mÃªs</label><input type="month" value="${S.mes}" onchange="S.mes=this.value||S.mes;render()">`:''}
+  return `<h2>Relat\u00f3rios</h2><p class="m">Escolha o per\u00edodo para atualizar os indicadores e os lan\u00e7amentos abaixo.</p>
+  <div class="seg">${B('hoje','Hoje')}${B('semana','Semana')}${B('mes','M\u00eas')}${B('dia','Dia')}</div>
+  ${S.per==='mes'?`<label>Selecionar m\u00eas</label><input type="month" value="${S.mes}" onchange="S.mes=this.value||S.mes;render()">`:''}
   ${S.per==='dia'?`<label>Selecionar dia</label><input type="date" value="${S.dia}" onchange="S.dia=this.value||S.dia;render()">`:''}
   <div class="card" style="margin-top:14px"><div class="l">Faturamento bruto</div><div class="v" style="font-size:30px">${brl(T.fat)}</div>
   <div class="grid" style="margin-top:14px;gap:14px 10px">
   <div><div class="l">Unidades vendidas</div><b>${T.un}</b></div><div><div class="l">Vendas realizadas</div><b>${sales.length}</b></div>
   <div><div class="l">Custo das mercadorias (CMV)</div><b>${brl(T.cmv)}</b></div><div><div class="l">Lucro bruto</div><b>${brl(T.bruto)}</b></div>
   <div><div class="l">Taxas</div><b>${brl(T.taxas)}</b></div><div><div class="l">Despesas operacionais</div><b>${brl(T.desp)}</b></div></div>
-  <div class="grid" style="margin-top:14px"><div><div class="l">Ticket mÃ©dio</div><b>${brl(sales.length?T.fat/sales.length:0)}</b></div><div><div class="l">Margem lÃ­quida</div><b>${T.fat?Math.round(T.liq/T.fat*100):0}%</b></div></div><div class="l" style="margin-top:16px">Lucro lÃ­quido</div><div class="v ${T.liq<0?'neg':'pos'}" style="font-size:30px">${brl(T.liq)}</div></div>
-  <h3>Produtos mais vendidos</h3>${top.length?top.map(([n,q])=>`<div class="row"><span>${esc(n)}</span><b>${q} un.</b></div>`).join(''):'<p class="m">Nenhuma venda no perÃ­odo selecionado.</p>'}
-  <h3>Recebido por forma de pagamento</h3>${payBreak(sales)}<h3>Estoque atualizado</h3>${stockList()}<h3>Vendas no perÃ­odo</h3>${listSales(sales)}<h3>Despesas no perÃ­odo</h3>${listExps(exps)}`},
+  <div class="grid" style="margin-top:14px"><div><div class="l">Ticket m\u00e9dio</div><b>${brl(sales.length?T.fat/sales.length:0)}</b></div><div><div class="l">Margem l\u00edquida</div><b>${T.fat?Math.round(T.liq/T.fat*100):0}%</b></div></div><div class="l" style="margin-top:16px">Lucro l\u00edquido</div><div class="v ${T.liq<0?'neg':'pos'}" style="font-size:30px">${brl(T.liq)}</div></div>
+  <h3>Produtos mais vendidos</h3>${top.length?top.map(([n,q])=>`<div class="row"><span>${esc(n)}</span><b>${q} un.</b></div>`).join(''):'<p class="m">Nenhuma venda no per\u00edodo selecionado.</p>'}
+  <h3>Recebido por forma de pagamento</h3>${payBreak(sales)}<h3>Estoque atualizado</h3>${stockList()}<h3>Vendas no per\u00edodo</h3>${listSales(sales)}<h3>Despesas no per\u00edodo</h3>${listExps(exps)}`},
 caixa(){return cashView()},
 caixa_old(){
   const mv=[...db.sales.map(s=>({d:s.date,t:'Venda: '+s.name,v:rev(s)-s.fee})),...db.buys.map(b=>({d:b.date,t:b.desc,v:-b.value})),...db.expenses.map(e=>({d:e.date,t:'Despesa: '+e.desc,v:-e.value}))].sort((a,b)=>b.d.localeCompare(a.d));
   const ent=sum(mv.filter(m=>m.v>0),m=>m.v),sai=-sum(mv.filter(m=>m.v<0),m=>m.v),saldo=ent-sai;
-  return `<h2>Caixa</h2><p class="m">Entradas das vendas (jÃ¡ sem taxas), menos compras de estoque e despesas.</p>
+  return `<h2>Caixa</h2><p class="m">Entradas das vendas (j\u00e1 sem taxas), menos compras de estoque e despesas.</p>
   <div class="card"><div class="l">Saldo em caixa</div><div class="v ${saldo<0?'neg':'pos'}" style="font-size:30px">${brl(saldo)}</div></div>
-  <div class="grid"><div class="card"><div class="l">Entradas</div><div class="v pos">${brl(ent)}</div></div><div class="card"><div class="l">SaÃ­das</div><div class="v neg">${brl(sai)}</div></div></div>
-  <h3>MovimentaÃ§Ãµes</h3>${mv.length?mv.slice(0,50).map(m=>`<div class="row"><div>${esc(m.t)}<div class="l" style="color:var(--mute);font-size:13px">${fdate(m.d)}</div></div><b class="${m.v<0?'neg':'pos'}">${brl(m.v)}</b></div>`).join(''):'<p class="m">Nenhuma movimentaÃ§Ã£o ainda.</p>'}
-  <h3>Backup dos dados</h3><p class="m">Os dados ficam salvos sÃ³ neste aparelho. Copie um backup de vez em quando.</p>
+  <div class="grid"><div class="card"><div class="l">Entradas</div><div class="v pos">${brl(ent)}</div></div><div class="card"><div class="l">Sa\u00eddas</div><div class="v neg">${brl(sai)}</div></div></div>
+  <h3>Movimenta\u00e7\u00f5es</h3>${mv.length?mv.slice(0,50).map(m=>`<div class="row"><div>${esc(m.t)}<div class="l" style="color:var(--mute);font-size:13px">${fdate(m.d)}</div></div><b class="${m.v<0?'neg':'pos'}">${brl(m.v)}</b></div>`).join(''):'<p class="m">Nenhuma movimenta\u00e7\u00e3o ainda.</p>'}
+  <h3>Backup dos dados</h3><p class="m">Os dados ficam salvos s\u00f3 neste aparelho. Copie um backup de vez em quando.</p>
   <button class="btn s o" onclick="backup()">Copiar backup</button><button class="btn s o" onclick="restore()">Restaurar backup</button>`}
 };
 
@@ -201,13 +201,13 @@ function addProduct(){
 }
 function restock(id){
   const p=db.products.find(x=>x.id===id),q=parseInt(prompt('Quantas unidades de "'+p.name+'" entraram?','1'))||0;
-  if(q<1)return;p.stock+=q;db.buys.push({id:Date.now(),date:today(),desc:'ReposiÃ§Ã£o: '+p.name,value:p.cost*q});save();toast('Estoque atualizado');render();
+  if(q<1)return;p.stock+=q;db.buys.push({id:Date.now(),date:today(),desc:'Reposi\u00e7\u00e3o: '+p.name,value:p.cost*q});save();toast('Estoque atualizado');render();
 }
-function delProduct(id){if(!confirm('Excluir este produto? As vendas jÃ¡ registradas continuam nos relatÃ³rios.'))return;db.products=db.products.filter(p=>p.id!==id);save();render()}
+function delProduct(id){if(!confirm('Excluir este produto? As vendas j\u00e1 registradas continuam nos relat\u00f3rios.'))return;db.products=db.products.filter(p=>p.id!==id);save();render()}
 function addSale(){
   const p=db.products.find(x=>x.id==val('vp')),q=parseInt(val('vq'))||0;
   if(!p||q<1)return toast('Informe a quantidade');
-  if(q>p.stock)return toast('Estoque insuficiente: sÃ³ hÃ¡ '+p.stock);
+  if(q>p.stock)return toast('Estoque insuficiente: s\u00f3 h\u00e1 '+p.stock);
   db.sales.push({id:Date.now(),pid:p.id,name:p.name,qty:q,price:num(val('vv')),cost:p.cost,fee:num(val('vf')),date:val('vd')||today()});
   p.stock-=q;save();toast('Venda registrada');render();
 }
@@ -218,50 +218,50 @@ function delSale(id){
 }
 function addExp(){
   const desc=val('ed').trim(),v=num(val('ev'));
-  if(!desc||v<=0)return toast('Informe a descriÃ§Ã£o e o valor');
+  if(!desc||v<=0)return toast('Informe a descri\u00e7\u00e3o e o valor');
   db.expenses.push({id:Date.now(),type:S.et,desc,value:v,date:val('et')||today()});save();toast('Despesa registrada');render();
 }
 function delExp(id){if(!confirm('Excluir esta despesa?'))return;db.expenses=db.expenses.filter(e=>e.id!==id);save();render()}
 function backup(){const t=JSON.stringify(db);(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('Backup copiado'),()=>prompt('Copie o texto abaixo:',t))}
 function restore(){
   const t=prompt('Cole aqui o backup:');if(!t)return;
-  try{const x=JSON.parse(t);if(!x.products)throw 0;db=x;db.cash=db.cash||[];db.meta=db.meta||0;save();toast('Backup restaurado');render()}catch(e){toast('Backup invÃ¡lido')}
+  try{const x=JSON.parse(t);if(!x.products)throw 0;db=x;db.cash=db.cash||[];db.meta=db.meta||0;save();toast('Backup restaurado');render()}catch(e){toast('Backup inv\u00e1lido')}
 }
 function countUpOld(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;document.querySelectorAll('#app .v').forEach(el=>{const t=el.textContent,m=t.includes('R$'),n=m?parseFloat(t.replace(/[^\d,-]/g,'').replace(',','.')):parseInt(t);if(!isFinite(n)||!n)return;const t0=performance.now();(function f(now){const k=Math.min(1,(now-t0)/600),x=n*(1-Math.pow(1-k,3));el.textContent=k<1?(m?brl(x):Math.round(x)):t;if(k<1)requestAnimationFrame(f)})(t0)})}
 function metaCard(){
   const r=sum(db.sales.filter(s=>s.date.slice(0,7)===today().slice(0,7)),rev),m=db.meta||0,p=m?Math.min(100,Math.round(r/m*100)):0;
-  return `<div class="card"><div class="l">Meta de faturamento do mÃªs</div>${m?`<div class="bar"><i style="width:${p}%"></i></div><div style="font-size:14px">${brl(r)} de ${brl(m)} (${p}%)${p>=100?' Â· meta batida':''}</div>`:'<p class="m" style="margin:6px 0 0">Defina uma meta para acompanhar seu progresso.</p>'}<button class="btn s o" onclick="setMeta()">${m?'Alterar meta':'Definir meta'}</button></div>`}
-function setMeta(){const v=prompt('Meta de faturamento do mÃªs (R$):',db.meta?String(db.meta).replace('.',','):'');if(v===null)return;db.meta=num(v);save();render()}
+  return `<div class="card"><div class="l">Meta de faturamento do m\u00eas</div>${m?`<div class="bar"><i style="width:${p}%"></i></div><div style="font-size:14px">${brl(r)} de ${brl(m)} (${p}%)${p>=100?' \u00b7 meta batida':''}</div>`:'<p class="m" style="margin:6px 0 0">Defina uma meta para acompanhar seu progresso.</p>'}<button class="btn s o" onclick="setMeta()">${m?'Alterar meta':'Definir meta'}</button></div>`}
+function setMeta(){const v=prompt('Meta de faturamento do m\u00eas (R$):',db.meta?String(db.meta).replace('.',','):'');if(v===null)return;db.meta=num(v);save();render()}
 function quickSell(id){const p=db.products.find(x=>x.id===id);if(!p||p.stock<1)return;db.sales.push({id:Date.now(),pid:p.id,name:p.name,qty:1,price:p.price,cost:p.cost,fee:0,date:today()});p.stock--;save();toast('Vendido: '+p.name);render()}
 function stockList(){return db.products.length?db.products.map(p=>`<div class="row"><span>${esc(p.name)}</span><span class="${p.stock<=p.min?'low':''}">${p.stock} un.</span></div>`).join(''):'<p class="m">Nenhum produto cadastrado.</p>'}
-function listSales(a){return a.length?[...a].reverse().slice(0,30).map(s=>`<div class="row"><div><b>${esc(s.name)}</b><div style="color:var(--mute);font-size:13px">${s.qty} un. Â· ${s.pay||'â'} Â· ${fdate(s.date)}</div></div><b>${brl(rev(s))}</b></div>`).join(''):'<p class="m">Sem vendas neste perÃ­odo.</p>'}
-function listExps(a){return a.length?a.map(e=>`<div class="row"><div><b>${esc(e.desc)}</b><div style="color:var(--mute);font-size:13px">${e.type==='fixa'?'Fixa':'VariÃ¡vel'} Â· ${fdate(e.date)}</div></div><b>${brl(e.value)}</b></div>`).join(''):'<p class="m">Sem despesas neste perÃ­odo.</p>'}
+function listSales(a){return a.length?[...a].reverse().slice(0,30).map(s=>`<div class="row"><div><b>${esc(s.name)}</b><div style="color:var(--mute);font-size:13px">${s.qty} un. \u00b7 ${s.pay||'\u2014'} \u00b7 ${fdate(s.date)}</div></div><b>${brl(rev(s))}</b></div>`).join(''):'<p class="m">Sem vendas neste per\u00edodo.</p>'}
+function listExps(a){return a.length?a.map(e=>`<div class="row"><div><b>${esc(e.desc)}</b><div style="color:var(--mute);font-size:13px">${e.type==='fixa'?'Fixa':'Vari\u00e1vel'} \u00b7 ${fdate(e.date)}</div></div><b>${brl(e.value)}</b></div>`).join(''):'<p class="m">Sem despesas neste per\u00edodo.</p>'}
 function cashView(){
   const C=db.cash||[],ap=sum(C.filter(c=>c.type==='aporte'),c=>c.value),rt=sum(C.filter(c=>c.type==='retirada'),c=>c.value);
   const vl=sum(db.sales,s=>rev(s)-s.fee),dp=sum(db.expenses,e=>e.value),cp=sum(db.buys,b=>b.value),saldo=vl-dp-cp+ap-rt;
   const K={venda:'Venda',despesa:'Despesa',compra:'Compra de estoque',aporte:'Aporte',retirada:'Retirada'};
   const mv=[...db.sales.map(s=>({k:'venda',p:s.pay,d:s.date,t:s.name,v:rev(s)-s.fee})),...db.expenses.map(e=>({k:'despesa',d:e.date,t:e.desc,v:-e.value})),...db.buys.map(b=>({k:'compra',d:b.date,t:b.desc,v:-b.value})),...C.map(c=>({k:c.type,d:c.date,t:c.desc,v:c.type==='aporte'?c.value:-c.value,id:c.id}))].filter(m=>S.cf==='todas'||m.k===S.cf).sort((a,b)=>b.d.localeCompare(a.d));
   const O=(v,n)=>`<option value="${v}" ${S.cf===v?'selected':''}>${n}</option>`;
-  return `<h2>Fluxo de caixa</h2><p class="m">Acompanhe o dinheiro que entrou e saiu. Aportes e retiradas manuais alteram o saldo do caixa, mas nÃ£o o lucro da empresa.</p>
-  <div class="card"><div class="l">Saldo atual estimado</div><div class="v ${saldo<0?'neg':'pos'}" style="font-size:32px">${brl(saldo)}</div><p class="m" style="margin:8px 0 0">Vendas lÃ­quidas de taxas â despesas â compras de estoque + aportes â retiradas</p></div>
-  <div class="grid"><div class="card"><div class="l">Entradas de vendas</div><div class="v pos">${brl(vl)}</div></div><div class="card"><div class="l">SaÃ­das de despesas</div><div class="v neg">${brl(dp)}</div></div>
+  return `<h2>Fluxo de caixa</h2><p class="m">Acompanhe o dinheiro que entrou e saiu. Aportes e retiradas manuais alteram o saldo do caixa, mas n\u00e3o o lucro da empresa.</p>
+  <div class="card"><div class="l">Saldo atual estimado</div><div class="v ${saldo<0?'neg':'pos'}" style="font-size:32px">${brl(saldo)}</div><p class="m" style="margin:8px 0 0">Vendas l\u00edquidas de taxas \u2212 despesas \u2212 compras de estoque + aportes \u2212 retiradas</p></div>
+  <div class="grid"><div class="card"><div class="l">Entradas de vendas</div><div class="v pos">${brl(vl)}</div></div><div class="card"><div class="l">Sa\u00eddas de despesas</div><div class="v neg">${brl(dp)}</div></div>
   <div class="card"><div class="l">Aportes / entradas</div><div class="v">${brl(ap)}</div></div><div class="card"><div class="l">Retiradas</div><div class="v">${brl(rt)}</div></div>
   <div class="card" style="grid-column:1/-1"><div class="l">Compras de estoque</div><div class="v neg">${brl(cp)}</div></div></div>
   <h3>Recebido por forma de pagamento</h3>${payBreak(db.sales)}
-  <h3>LanÃ§amento manual de caixa</h3>
+  <h3>Lan\u00e7amento manual de caixa</h3>
   <div class="seg"><button class="${S.ct==='aporte'?'on':''}" onclick="setSeg('ct','aporte',this)">Entrada / aporte</button><button class="${S.ct==='retirada'?'on':''}" onclick="setSeg('ct','retirada',this)">Retirada</button></div>
-  <label>DescriÃ§Ã£o</label><input id="cd" placeholder="Ex.: Dinheiro colocado no caixa">
+  <label>Descri\u00e7\u00e3o</label><input id="cd" placeholder="Ex.: Dinheiro colocado no caixa">
   <label>Valor (R$)</label><input id="cv" inputmode="decimal" placeholder="0,00">
-  <label>Data do lanÃ§amento</label><input id="cdt" type="date" value="${today()}">
+  <label>Data do lan\u00e7amento</label><input id="cdt" type="date" value="${today()}">
   <button class="btn" onclick="addCash()">Registrar no caixa</button>
-  <h3>MovimentaÃ§Ãµes</h3>
+  <h3>Movimenta\u00e7\u00f5es</h3>
   <select onchange="S.cf=this.value;render()">${O('todas','Todas')}${O('venda','Vendas')}${O('despesa','Despesas')}${O('compra','Compras de estoque')}${O('aporte','Aportes')}${O('retirada','Retiradas')}</select>
-  <div style="margin-top:8px">${mv.length?mv.slice(0,60).map(m=>`<div class="row"><div><b>${esc(m.t)}</b><div style="color:var(--mute);font-size:13px">${K[m.k]}${m.p?' Â· '+m.p:''} Â· ${fdate(m.d)}</div>${m.id?`<a href="#" style="color:var(--bad);font-size:13px" onclick="delCash(${m.id});return false">Excluir</a>`:''}</div><b class="${m.v<0?'neg':'pos'}">${brl(m.v)}</b></div>`).join(''):'<p class="m">Ainda nÃ£o existem movimentaÃ§Ãµes no caixa.</p>'}</div>
-  <p class="m">LanÃ§amentos manuais nÃ£o entram como despesas operacionais nem alteram o lucro lÃ­quido. Vendas entram pelo valor recebido, jÃ¡ descontadas as taxas; despesas e compras de estoque reduzem o saldo do caixa.</p>
+  <div style="margin-top:8px">${mv.length?mv.slice(0,60).map(m=>`<div class="row"><div><b>${esc(m.t)}</b><div style="color:var(--mute);font-size:13px">${K[m.k]}${m.p?' \u00b7 '+m.p:''} \u00b7 ${fdate(m.d)}</div>${m.id?`<a href="#" style="color:var(--bad);font-size:13px" onclick="delCash(${m.id});return false">Excluir</a>`:''}</div><b class="${m.v<0?'neg':'pos'}">${brl(m.v)}</b></div>`).join(''):'<p class="m">Ainda n\u00e3o existem movimenta\u00e7\u00f5es no caixa.</p>'}</div>
+  <p class="m">Lan\u00e7amentos manuais n\u00e3o entram como despesas operacionais nem alteram o lucro l\u00edquido. Vendas entram pelo valor recebido, j\u00e1 descontadas as taxas; despesas e compras de estoque reduzem o saldo do caixa.</p>
   <h3>Backup dos dados</h3><p class="m">Seus dados ficam salvos neste aparelho. Copie um backup de vez em quando e guarde nas Notas.</p>
   <button class="btn s o" onclick="backup()">Copiar backup</button><button class="btn s o" onclick="restore()">Restaurar backup</button>`}
-function addCash(){const desc=val('cd').trim(),v=num(val('cv'));if(!desc||v<=0)return toast('Informe a descriÃ§Ã£o e o valor');db.cash.push({id:Date.now(),type:S.ct,desc,value:v,date:val('cdt')||today()});save();toast('LanÃ§amento registrado');render()}
-function delCash(id){if(!confirm('Excluir este lanÃ§amento?'))return;db.cash=db.cash.filter(c=>c.id!==id);save();render()}
+function addCash(){const desc=val('cd').trim(),v=num(val('cv'));if(!desc||v<=0)return toast('Informe a descri\u00e7\u00e3o e o valor');db.cash.push({id:Date.now(),type:S.ct,desc,value:v,date:val('cdt')||today()});save();toast('Lan\u00e7amento registrado');render()}
+function delCash(id){if(!confirm('Excluir este lan\u00e7amento?'))return;db.cash=db.cash.filter(c=>c.id!==id);save();render()}
 const PREV={},PB={};
 function countUp(fresh){
   const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -298,24 +298,24 @@ function dlg(msg,o={}){return new Promise(res=>{
   const i=m.querySelector('#dlgi');if(i){i.focus();if(o.ro)i.select()}
 })}
 const ask=msg=>dlg(msg,{ok:'Confirmar',danger:1}).then(v=>v===true);
-function payBreak(a){const P=['Dinheiro','Pix','CartÃ£o'],t=P.map(n=>[n,sum(a.filter(s=>s.pay===n),s=>rev(s)-s.fee)]),o=sum(a.filter(s=>!P.includes(s.pay)),s=>rev(s)-s.fee);if(o)t.push(['Sem informaÃ§Ã£o',o]);return `<div class="card">${t.map(([n,v])=>`<div class="row"><span>${n}</span><b>${brl(v)}</b></div>`).join('')}</div>`}
+function payBreak(a){const P=['Dinheiro','Pix','Cart\u00e3o'],t=P.map(n=>[n,sum(a.filter(s=>s.pay===n),s=>rev(s)-s.fee)]),o=sum(a.filter(s=>!P.includes(s.pay)),s=>rev(s)-s.fee);if(o)t.push(['Sem informa\u00e7\u00e3o',o]);return `<div class="card">${t.map(([n,v])=>`<div class="row"><span>${n}</span><b>${brl(v)}</b></div>`).join('')}</div>`}
 function addSale(){
   const p=db.products.find(x=>x.id==val('vp')),q=parseInt(val('vq'))||0,pr=num(val('vv'));
   if(!p||q<1)return toast('Informe a quantidade');
-  if(q>p.stock)return toast('Estoque insuficiente: sÃ³ hÃ¡ '+p.stock);
-  if(pr<=0)return toast('Informe o preÃ§o de venda');
+  if(q>p.stock)return toast('Estoque insuficiente: s\u00f3 h\u00e1 '+p.stock);
+  if(pr<=0)return toast('Informe o pre\u00e7o de venda');
   db.sales.push({id:Date.now(),pid:p.id,name:p.name,qty:q,price:pr,cost:p.cost,fee:num(val('vf')),pay:S.pay||'Pix',date:val('vd')||today()});
   p.stock-=q;save();toast('Venda registrada em '+(S.pay||'Pix'));render();
 }
-async function quickSell(id){const p=db.products.find(x=>x.id===id);if(!p||p.stock<1)return;const m=await dlg('Forma de pagamento da venda de "'+p.name+'":',{choices:['Pix','Dinheiro','CartÃ£o']});if(!m)return;db.sales.push({id:Date.now(),pid:p.id,name:p.name,qty:1,price:p.price,cost:p.cost,fee:0,pay:m,date:today()});p.stock--;save();toast('Vendido: '+p.name);render();saleNotify(p.name,1,p.price)}
-async function restock(id){const p=db.products.find(x=>x.id===id);if(!p)return;const v=await dlg('Quantas unidades de "'+p.name+'" entraram?',{input:1,def:'1',mode:'numeric',ok:'Repor'});if(v===null)return;const q=parseInt(v)||0;if(q<1)return toast('Quantidade invÃ¡lida');p.stock+=q;db.buys.push({id:Date.now(),date:today(),desc:'ReposiÃ§Ã£o: '+p.name,value:p.cost*q});save();toast('Estoque atualizado');render()}
-async function delProduct(id){if(!await ask('Excluir este produto? As vendas jÃ¡ registradas continuam nos relatÃ³rios.'))return;db.products=db.products.filter(p=>p.id!==id);save();toast('Produto excluÃ­do');render()}
+async function quickSell(id){const p=db.products.find(x=>x.id===id);if(!p||p.stock<1)return;const m=await dlg('Forma de pagamento da venda de "'+p.name+'":',{choices:['Pix','Dinheiro','Cart\u00e3o']});if(!m)return;db.sales.push({id:Date.now(),pid:p.id,name:p.name,qty:1,price:p.price,cost:p.cost,fee:0,pay:m,date:today()});p.stock--;save();toast('Vendido: '+p.name);render();saleNotify(p.name,1,p.price)}
+async function restock(id){const p=db.products.find(x=>x.id===id);if(!p)return;const v=await dlg('Quantas unidades de "'+p.name+'" entraram?',{input:1,def:'1',mode:'numeric',ok:'Repor'});if(v===null)return;const q=parseInt(v)||0;if(q<1)return toast('Quantidade inv\u00e1lida');p.stock+=q;db.buys.push({id:Date.now(),date:today(),desc:'Reposi\u00e7\u00e3o: '+p.name,value:p.cost*q});save();toast('Estoque atualizado');render()}
+async function delProduct(id){if(!await ask('Excluir este produto? As vendas j\u00e1 registradas continuam nos relat\u00f3rios.'))return;db.products=db.products.filter(p=>p.id!==id);save();toast('Produto exclu\u00eddo');render()}
 async function delSale(id){if(!await ask('Cancelar esta venda? As unidades voltam ao estoque.'))return;const s=db.sales.find(x=>x.id===id);if(!s)return;const p=db.products.find(x=>x.id===s.pid);if(p)p.stock+=s.qty;db.sales=db.sales.filter(x=>x.id!==id);save();toast('Venda cancelada');render()}
-async function delExp(id){if(!await ask('Excluir esta despesa?'))return;db.expenses=db.expenses.filter(e=>e.id!==id);save();toast('Despesa excluÃ­da');render()}
-async function delCash(id){if(!await ask('Excluir este lanÃ§amento?'))return;db.cash=db.cash.filter(c=>c.id!==id);save();toast('LanÃ§amento excluÃ­do');render()}
-async function setMeta(){const v=await dlg('Meta de faturamento do mÃªs (R$):',{input:1,def:db.meta?String(db.meta).replace('.',','):'',mode:'decimal',ok:'Salvar'});if(v===null)return;db.meta=num(v);save();toast('Meta salva');render()}
+async function delExp(id){if(!await ask('Excluir esta despesa?'))return;db.expenses=db.expenses.filter(e=>e.id!==id);save();toast('Despesa exclu\u00edda');render()}
+async function delCash(id){if(!await ask('Excluir este lan\u00e7amento?'))return;db.cash=db.cash.filter(c=>c.id!==id);save();toast('Lan\u00e7amento exclu\u00eddo');render()}
+async function setMeta(){const v=await dlg('Meta de faturamento do m\u00eas (R$):',{input:1,def:db.meta?String(db.meta).replace('.',','):'',mode:'decimal',ok:'Salvar'});if(v===null)return;db.meta=num(v);save();toast('Meta salva');render()}
 async function backup(){const t=JSON.stringify(db);try{await navigator.clipboard.writeText(t);toast('Backup copiado')}catch(e){dlg('Selecione todo o texto, copie e guarde em um lugar seguro (ex.: app Notas).',{area:1,ro:1,def:t})}}
-async function restore(){const t=await dlg('Cole aqui o texto do backup. Isso substitui os dados atuais.',{area:1,def:'',ok:'Restaurar'});if(!t)return;try{const x=JSON.parse(t);if(!x.products)throw 0;db=x;db.cash=db.cash||[];db.meta=db.meta||0;save();toast('Backup restaurado');render()}catch(e){toast('Backup invÃ¡lido')}}
+async function restore(){const t=await dlg('Cole aqui o texto do backup. Isso substitui os dados atuais.',{area:1,def:'',ok:'Restaurar'});if(!t)return;try{const x=JSON.parse(t);if(!x.products)throw 0;db=x;db.cash=db.cash||[];db.meta=db.meta||0;save();toast('Backup restaurado');render()}catch(e){toast('Backup inv\u00e1lido')}}
 views.vender=function(){
   const P=db.products,av=P.filter(p=>p.stock>0);
   if(S.sel&&!av.find(p=>p.id===S.sel))S.sel=null;
@@ -323,37 +323,37 @@ views.vender=function(){
   const pay=S.pay||'Pix',sales=[...db.sales].reverse();
   const B=m=>`<button class="${pay===m?'on':''}" onclick="setPay('${m}',this)">${m}</button>`;
   let h='<h2>Nova venda</h2>';
-  if(d)h+=`<div class="card okc"><b class="pos">Venda registrada</b><div>${d.q}Ã ${esc(d.name)} Â· ${d.pay}</div><div class="v">${brl(d.total)}</div></div>`;
-  if(!P.length)h+='<div class="card empty">VocÃª ainda nÃ£o tem produtos cadastrados. Cadastre os produtos na aba <b>Cadastrar</b>; depois Ã© sÃ³ voltar aqui para vender.</div>';
-  else if(!av.length)h+='<div class="card empty">Todos os produtos estÃ£o sem estoque. Reponha o estoque na aba <b>Produtos</b>.</div>';
+  if(d)h+=`<div class="card okc"><b class="pos">Venda registrada</b><div>${d.q}\u00d7 ${esc(d.name)} \u00b7 ${d.pay}</div><div class="v">${brl(d.total)}</div></div>`;
+  if(!P.length)h+='<div class="card empty">Voc\u00ea ainda n\u00e3o tem produtos cadastrados. Cadastre os produtos na aba <b>Cadastrar</b>; depois \u00e9 s\u00f3 voltar aqui para vender.</div>';
+  else if(!av.length)h+='<div class="card empty">Todos os produtos est\u00e3o sem estoque. Reponha o estoque na aba <b>Produtos</b>.</div>';
   else{
     h+=`<p class="m">1. Escolha o produto vendido</p><input id="vs" placeholder="Buscar produto..." oninput="filterProd(this.value)">
-    <div id="plist" style="margin-top:10px;max-height:270px;overflow-y:auto">${av.map(p=>`<div class="card pick ${p.id===S.sel?'sel':''}" data-n="${esc(p.name.toLowerCase())}" onclick="pickProd(${p.id})"><div class="row" style="border:0;padding:0"><b>${esc(p.name)}</b><b>${brl(p.price)}</b></div><div style="color:var(--mute);font-size:13px">${p.stock} em estoque Â· ${esc(p.cat)}</div></div>`).join('')}</div>`;
-    if(sel)h+=`<div id="sf"><p class="m" style="margin-top:22px">2. Quantidade e preÃ§o</p>
-    <div class="two"><div><label style="margin-top:0">Quantidade</label><div class="step"><button onclick="stepQty(-1)">â</button><input id="vq" type="number" inputmode="numeric" min="1" max="${sel.stock}" value="1" oninput="calc()"><button onclick="stepQty(1)">+</button></div></div>
-    <div><label style="margin-top:0">PreÃ§o unitÃ¡rio (R$)</label><input id="vv" inputmode="decimal" value="${String(sel.price).replace('.',',')}" oninput="calc()"></div></div>
+    <div id="plist" style="margin-top:10px;max-height:270px;overflow-y:auto">${av.map(p=>`<div class="card pick ${p.id===S.sel?'sel':''}" data-n="${esc(p.name.toLowerCase())}" onclick="pickProd(${p.id})"><div class="row" style="border:0;padding:0"><b>${esc(p.name)}</b><b>${brl(p.price)}</b></div><div style="color:var(--mute);font-size:13px">${p.stock} em estoque \u00b7 ${esc(p.cat)}</div></div>`).join('')}</div>`;
+    if(sel)h+=`<div id="sf"><p class="m" style="margin-top:22px">2. Quantidade e pre\u00e7o</p>
+    <div class="two"><div><label style="margin-top:0">Quantidade</label><div class="step"><button onclick="stepQty(-1)">\u2212</button><input id="vq" type="number" inputmode="numeric" min="1" max="${sel.stock}" value="1" oninput="calc()"><button onclick="stepQty(1)">+</button></div></div>
+    <div><label style="margin-top:0">Pre\u00e7o unit\u00e1rio (R$)</label><input id="vv" inputmode="decimal" value="${String(sel.price).replace('.',',')}" oninput="calc()"></div></div>
     <label>Desconto (R$)</label><input id="vdc" inputmode="decimal" placeholder="0,00" oninput="calc()">
-    <p class="m" style="margin-top:22px">3. Como o cliente pagou?</p><div class="seg">${B('Pix')}${B('Dinheiro')}${B('CartÃ£o')}</div>
-    <div id="rate" style="display:${pay==='CartÃ£o'?'block':'none'}"><label>Taxa da maquininha (%)</label><input id="vr" inputmode="decimal" value="${String(db.rate||0).replace('.',',')}" oninput="calc()"></div>
+    <p class="m" style="margin-top:22px">3. Como o cliente pagou?</p><div class="seg">${B('Pix')}${B('Dinheiro')}${B('Cart\u00e3o')}</div>
+    <div id="rate" style="display:${pay==='Cart\u00e3o'?'block':'none'}"><label>Taxa da maquininha (%)</label><input id="vr" inputmode="decimal" value="${String(db.rate||0).replace('.',',')}" oninput="calc()"></div>
     <label>Data da venda</label><input id="vd" type="date" value="${today()}">
     <div class="card" id="sum" style="margin-top:16px"></div>
     <button class="btn" id="vgo" onclick="addSale()">Finalizar venda</button></div>`;
   }
-  h+=`<h3>Vendas registradas</h3>${sales.length?sales.slice(0,30).map(s=>`<div class="row"><div><b>${esc(s.name)}</b><div style="color:var(--mute);font-size:13px">${s.qty} un. Â· ${s.pay||'â'} Â· ${fdate(s.date)}</div><a href="#" style="color:var(--bad);font-size:13px" onclick="delSale(${s.id});return false">Cancelar venda</a></div><b>${brl(rev(s))}</b></div>`).join(''):'<p class="m">Nenhuma venda registrada.</p>'}`;
+  h+=`<h3>Vendas registradas</h3>${sales.length?sales.slice(0,30).map(s=>`<div class="row"><div><b>${esc(s.name)}</b><div style="color:var(--mute);font-size:13px">${s.qty} un. \u00b7 ${s.pay||'\u2014'} \u00b7 ${fdate(s.date)}</div><a href="#" style="color:var(--bad);font-size:13px" onclick="delSale(${s.id});return false">Cancelar venda</a></div><b>${brl(rev(s))}</b></div>`).join(''):'<p class="m">Nenhuma venda registrada.</p>'}`;
   return h;
 };
-function saleCalc(){const p=db.products.find(x=>x.id===S.sel);if(!p||!$('#vq'))return null;const q=Math.max(0,parseInt(val('vq'))||0),pr=num(val('vv')),dc=num(val('vdc')),sub=q*pr,total=Math.max(0,sub-dc),rate=(S.pay||'Pix')==='CartÃ£o'?num(val('vr')):0,fee=Math.round(total*rate)/100,net=total-fee;return{p,q,pr,dc,sub,total,rate,fee,net,lucro:net-q*p.cost}}
-function calc(){const c=saleCalc();if(!c)return;$('#sum').innerHTML=`<div class="row"><span>Subtotal</span><b>${brl(c.sub)}</b></div>${c.dc?`<div class="row"><span>Desconto</span><b class="neg">â${brl(c.dc)}</b></div>`:''}<div class="row"><span>Total da venda</span><b style="font-size:20px">${brl(c.total)}</b></div>${c.fee?`<div class="row"><span>Taxa (${c.rate}%)</span><b class="neg">â${brl(c.fee)}</b></div>`:''}<div class="row"><span>VocÃª recebe</span><b>${brl(c.net)}</b></div><div class="row"><span>Lucro estimado</span><b class="${c.lucro<0?'neg':'pos'}">${brl(c.lucro)}</b></div>`;$('#vgo').textContent='Finalizar venda Â· '+brl(c.total)}
+function saleCalc(){const p=db.products.find(x=>x.id===S.sel);if(!p||!$('#vq'))return null;const q=Math.max(0,parseInt(val('vq'))||0),pr=num(val('vv')),dc=num(val('vdc')),sub=q*pr,total=Math.max(0,sub-dc),rate=(S.pay||'Pix')==='Cart\u00e3o'?num(val('vr')):0,fee=Math.round(total*rate)/100,net=total-fee;return{p,q,pr,dc,sub,total,rate,fee,net,lucro:net-q*p.cost}}
+function calc(){const c=saleCalc();if(!c)return;$('#sum').innerHTML=`<div class="row"><span>Subtotal</span><b>${brl(c.sub)}</b></div>${c.dc?`<div class="row"><span>Desconto</span><b class="neg">\u2212${brl(c.dc)}</b></div>`:''}<div class="row"><span>Total da venda</span><b style="font-size:20px">${brl(c.total)}</b></div>${c.fee?`<div class="row"><span>Taxa (${c.rate}%)</span><b class="neg">\u2212${brl(c.fee)}</b></div>`:''}<div class="row"><span>Voc\u00ea recebe</span><b>${brl(c.net)}</b></div><div class="row"><span>Lucro estimado</span><b class="${c.lucro<0?'neg':'pos'}">${brl(c.lucro)}</b></div>`;$('#vgo').textContent='Finalizar venda \u00b7 '+brl(c.total)}
 function fillPrice(){calc()}
 function pickProd(id){S.sel=id;S.pay=S.pay||'Pix';render();setTimeout(()=>{const f=$('#sf');if(f)f.scrollIntoView({behavior:'smooth',block:'start'})},60)}
 function filterProd(q){q=q.toLowerCase();document.querySelectorAll('#plist .pick').forEach(e=>e.style.display=e.dataset.n.includes(q)?'':'none')}
 function stepQty(d){const p=db.products.find(x=>x.id===S.sel),i=$('#vq');if(!p||!i)return;i.value=Math.max(1,Math.min(p.stock,(parseInt(i.value)||1)+d));calc()}
-function setPay(m,el){S.pay=m;el.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('on'));el.classList.add('on');$('#rate').style.display=m==='CartÃ£o'?'block':'none';calc()}
+function setPay(m,el){S.pay=m;el.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('on'));el.classList.add('on');$('#rate').style.display=m==='Cart\u00e3o'?'block':'none';calc()}
 function addSale(){
   const c=saleCalc();if(!c)return toast('Escolha um produto');
   if(c.q<1)return toast('Informe a quantidade');
-  if(c.q>c.p.stock)return toast('Estoque insuficiente: sÃ³ hÃ¡ '+c.p.stock);
-  if(c.pr<=0||c.total<=0)return toast('Informe o preÃ§o de venda');
+  if(c.q>c.p.stock)return toast('Estoque insuficiente: s\u00f3 h\u00e1 '+c.p.stock);
+  if(c.pr<=0||c.total<=0)return toast('Informe o pre\u00e7o de venda');
   const pay=S.pay||'Pix';
   db.sales.push({id:Date.now(),pid:c.p.id,name:c.p.name,qty:c.q,price:c.total/c.q,cost:c.p.cost,fee:c.fee,pay,disc:c.dc,date:val('vd')||today()});
   if(c.rate)db.rate=c.rate;
@@ -388,7 +388,7 @@ function editProduct(id){
   <label style="margin-top:0">Nome</label><input id="en" value="${esc(p.name)}">
   <label>Categoria</label><select id="ec">${CATS.map(c=>`<option ${c===p.cat?'selected':''}>${c}</option>`).join('')}</select>
   <div class="two"><div><label>Custo (R$)</label><input id="ek" inputmode="decimal" value="${String(p.cost).replace('.',',')}"></div><div><label>Venda (R$)</label><input id="ep" inputmode="decimal" value="${String(p.price).replace('.',',')}"></div></div>
-  <div class="two"><div><label>Em estoque</label><input id="es" type="number" inputmode="numeric" value="${p.stock}"></div><div><label>MÃ­nimo</label><input id="em" type="number" inputmode="numeric" value="${p.min}"></div></div>
+  <div class="two"><div><label>Em estoque</label><input id="es" type="number" inputmode="numeric" value="${p.stock}"></div><div><label>M\u00ednimo</label><input id="em" type="number" inputmode="numeric" value="${p.min}"></div></div>
   <label>Data de entrada</label><input id="ed2" type="date" value="${p.date}">
   <div class="acts"><button class="btn o" data-x="1">Cancelar</button><button class="btn" data-ok="1">Salvar</button></div></div>`;
   m.onclick=e=>{const t=e.target;if(t===m||t.dataset.x)return m.remove();if(t.dataset.ok){const n=val('en').trim();if(!n)return toast('Informe o nome');p.name=n;p.cat=val('ec');p.cost=num(val('ek'));p.price=num(val('ep'));p.stock=Math.max(0,parseInt(val('es'))||0);p.min=Math.max(0,parseInt(val('em'))||0);p.date=val('ed2')||p.date;save();m.remove();toast('Produto atualizado');render()}};
@@ -398,11 +398,11 @@ function monthSummary(){const mo=today().slice(0,7),sl=db.sales.filter(s=>s.date
 function banner(t,b){const e=document.createElement('div');e.className='ban';e.innerHTML='<b>'+esc(t)+'</b><div>'+esc(b)+'</div>';e.onclick=()=>e.remove();document.body.appendChild(e);setTimeout(()=>e.remove(),6500)}
 async function sysNotify(t,b){try{if(!('Notification' in window)||Notification.permission!=='granted')return;const reg=navigator.serviceWorker&&await navigator.serviceWorker.getRegistration();if(reg&&reg.showNotification)await reg.showNotification(t,{body:b,icon:'icon-192.png',badge:'icon-192.png'});else new Notification(t,{body:b})}catch(e){}}
 function notify(t,b){banner(t,b);sysNotify(t,b)}
-function saleNotify(name,q,total){if(db.notif===false)return;const T=monthSummary().T;notify('ADAPT TECH','Sua loja teve '+brl(T.bruto)+' em ganhos este mÃªs.')}
-function sendSummary(){const m=monthSummary();notify('ADAPT TECH','Sua loja teve '+brl(m.T.bruto)+' em ganhos este mÃªs.')}
+function saleNotify(name,q,total){if(db.notif===false)return;const T=monthSummary().T;notify('ADAPT TECH','Sua loja teve '+brl(T.bruto)+' em ganhos este m\u00eas.')}
+function sendSummary(){const m=monthSummary();notify('ADAPT TECH','Sua loja teve '+brl(m.T.bruto)+' em ganhos este m\u00eas.')}
 function toggleNotif(){db.notif=(db.notif===false);save();render()}
-async function askNotif(){if(!('Notification' in window))return toast('Este navegador nÃ£o suporta notificaÃ§Ãµes');try{const r=await Notification.requestPermission();toast(r==='granted'?'NotificaÃ§Ãµes ativadas':'PermissÃ£o negada')}catch(e){toast('NÃ£o foi possÃ­vel ativar aqui')}render()}
-function notifCard(){const p=(window.self!==window.top)?'framed':(('Notification' in window)?Notification.permission:'unsupported'),off=db.notif===false;return `<div class="card"><div class="l">NotificaÃ§Ãµes</div><div class="row" style="border:0"><span>Avisar a cada venda</span><button class="btn s ${off?'o':''}" style="margin:0" onclick="toggleNotif()">${off?'Desligado':'Ligado'}</button></div><button class="btn s o" onclick="sendSummary()">Enviar resumo do mÃªs</button>${p==='default'?'<button class="btn s o" onclick="askNotif()">Ativar notificaÃ§Ãµes do celular</button>':''}${p==='framed'?'<p class="m">As notificaÃ§Ãµes do celular sÃ³ funcionam no app instalado pelo seu prÃ³prio endereÃ§o, nÃ£o neste link do Claude.</p>':''}${p==='unsupported'?'<p class="m">Para ativar as notificaÃ§Ãµes, instale o app na Tela de InÃ­cio e abra pelo Ã­cone.</p>':''}${p==='denied'?'<p class="m">As notificaÃ§Ãµes do celular estÃ£o bloqueadas nos Ajustes do iPhone.</p>':''}</div>`}
+async function askNotif(){if(!('Notification' in window))return toast('Este navegador n\u00e3o suporta notifica\u00e7\u00f5es');try{const r=await Notification.requestPermission();toast(r==='granted'?'Notifica\u00e7\u00f5es ativadas':'Permiss\u00e3o negada')}catch(e){toast('N\u00e3o foi poss\u00edvel ativar aqui')}render()}
+function notifCard(){const p=(window.self!==window.top)?'framed':(('Notification' in window)?Notification.permission:'unsupported'),off=db.notif===false;return `<div class="card"><div class="l">Notifica\u00e7\u00f5es</div><div class="row" style="border:0"><span>Avisar a cada venda</span><button class="btn s ${off?'o':''}" style="margin:0" onclick="toggleNotif()">${off?'Desligado':'Ligado'}</button></div><button class="btn s o" onclick="sendSummary()">Enviar resumo do m\u00eas</button>${p==='default'?'<button class="btn s o" onclick="askNotif()">Ativar notifica\u00e7\u00f5es do celular</button>':''}${p==='framed'?'<p class="m">As notifica\u00e7\u00f5es do celular s\u00f3 funcionam no app instalado pelo seu pr\u00f3prio endere\u00e7o, n\u00e3o neste link do Claude.</p>':''}${p==='unsupported'?'<p class="m">Para ativar as notifica\u00e7\u00f5es, instale o app na Tela de In\u00edcio e abra pelo \u00edcone.</p>':''}${p==='denied'?'<p class="m">As notifica\u00e7\u00f5es do celular est\u00e3o bloqueadas nos Ajustes do iPhone.</p>':''}</div>`}
 try{if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}
 render(1);
 initSync();
